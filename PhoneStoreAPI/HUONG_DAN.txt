@@ -1,0 +1,45 @@
+BÀI TẬP 03 - PHẦN WEB API (PhoneStoreAPI, .NET 8)
+=================================================
+
+CẤU TRÚC
+  Database\PhoneStoreDB.sql   Script tạo CSDL + dữ liệu mẫu
+  Entities\                   Lớp ánh xạ bảng (tương đương Scaffold-DbContext)
+  Models\                     Dữ liệu trao đổi với Flutter
+  Controllers\                DienThoaiController, HoaDonController
+  wwwroot\images\             Ảnh điện thoại (dt01.png ... dt08.png)
+
+CƠ SỞ DỮ LIỆU (PhoneStoreDB)
+  tblDienThoai     (MaDT, TenDT, MoTa, Gia, HinhAnh)
+  tblHoaDon        (MaHD [tự tăng], NgayLap, TenKhachHang, TongTien)
+  tblChiTietHoaDon (MaHD, MaDT, SoLuong, DonGia)   khóa chính (MaHD, MaDT)
+
+CÁC API
+  GET  /api/DienThoai            Danh sách điện thoại
+  GET  /api/DienThoai/{id}       Chi tiết 1 điện thoại
+  GET  /api/DienThoai/banchay    Sản phẩm được lựa chọn nhiều nhất
+  POST /api/HoaDon               Thanh toán -> lưu hóa đơn + chi tiết
+  GET  /api/HoaDon               Xem các hóa đơn đã lưu
+  GET  /api/HoaDon/{id}          Xem 1 hóa đơn
+  Ảnh: http://localhost:5140/images/dt01.png
+
+CÁCH CHẠY
+1. Tạo database: SSMS -> New Query -> mở Database\PhoneStoreDB.sql -> Execute.
+   (Chạy trên đúng server mà bạn đã dùng thành công ở bài trước.)
+
+2. Sửa appsettings.json, dòng "PhoneStore":
+   Dùng LẠI chuỗi kết nối đã chạy được ở project TaoAPI,
+   chỉ đổi phần Database=ApiDemo thành Database=PhoneStoreDB.
+   Mặc định đang để LocalDB:
+     Server=(localdb)\\MSSQLLocalDB;Database=PhoneStoreDB;Trusted_Connection=True;TrustServerCertificate=True
+
+3. Visual Studio 2022 -> File -> Open -> Project/Solution -> chọn PhoneStoreAPI.csproj
+   (KHÔNG dùng Open Folder). Đợi restore NuGet xong.
+
+4. Chọn profile "http" -> bấm Run. Swagger mở tại http://localhost:5140/swagger
+   Thử GET /api/DienThoai -> thấy 8 điện thoại là đúng.
+
+   Cổng 5140 khác cổng 5130 của bài trước nên có thể chạy song song.
+
+THAY ẢNH THẬT
+  Chép ảnh vào wwwroot\images (vd: iphone15.png) rồi cập nhật cột HinhAnh:
+    UPDATE tblDienThoai SET HinhAnh = N'iphone15.png' WHERE MaDT = N'DT07';

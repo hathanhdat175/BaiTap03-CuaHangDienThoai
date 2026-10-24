@@ -1,0 +1,19 @@
+# .NET (Visual Studio)
+bin/
+obj/
+.vs/
+*.user
+
+# Flutter / Dart
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+*.iml
+.idea/
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/release/
+ios/Pods/

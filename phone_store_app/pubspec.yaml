@@ -1,0 +1,22 @@
+name: phone_store_app
+description: "Bai tap 03 - Ung dung mua ban dien thoai (Flutter + ASP.NET Core Web API)"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Khoảng phiên bản rộng để chạy được với nhiều phiên bản Flutter (máy phòng lab)
+  cupertino_icons: ">=1.0.0 <2.0.0"
+  http: ">=1.1.0 <2.0.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ">=2.0.0 <7.0.0"
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,52 @@
+BÀI TẬP 03 - PHẦN FLUTTER (phone_store_app)
+===========================================
+
+CẤU TRÚC lib\
+  main.dart                    Khởi động app -> màn hình giới thiệu
+  config.dart                  Địa chỉ API, tên cửa hàng, tên/email trên Drawer
+  models\dien_thoai.dart       Lớp DienThoai + hàm định dạng giá
+  services\api_service.dart    Gọi API (lấy sản phẩm, bán chạy, thanh toán)
+  services\cart_service.dart   Giỏ hàng dùng chung
+  screens\intro_screen.dart    Màn hình giới thiệu (nút mũi tên)
+  screens\home_screen.dart     Cửa hàng + "Sản phẩm được lựa chọn nhiều nhất"
+  screens\cart_screen.dart     Giỏ hàng + Thanh toán
+  widgets\app_drawer.dart      Drawer: Cửa hàng / Giỏ hàng / Thoát
+  widgets\product_card.dart    Thẻ sản phẩm
+  widgets\cart_icon_button.dart Icon giỏ hàng có số lượng
+  widgets\store_logo.dart      Logo
+
+CÁCH CHẠY (chạy thẳng trong thư mục này, không ghi đè code)
+1. Mở thư mục phone_store_app bằng VS Code.
+
+2. Terminal (Ctrl+`) gõ:
+       flutter create --platforms=android --project-name phone_store_app .
+   (nhớ dấu chấm ở cuối). Lệnh này chỉ thêm các file Android còn thiếu. Code trong lib, pubspec.yaml,
+   test và AndroidManifest.xml (đã có sẵn quyền INTERNET + cho phép http)
+   đều được giữ nguyên.
+
+3.     flutter pub get
+
+4. Sửa lib\config.dart:
+     - tenNguoiDung / emailNguoiDung: tên và email của bạn (hiện trên Drawer,
+       đồng thời lưu vào cột TenKhachHang của hóa đơn).
+     - apiHost: để nguyên 10.0.2.2:5140 nếu dùng máy ảo Android.
+
+5. Đảm bảo PhoneStoreAPI đang chạy trong Visual Studio.
+
+6. Bấm "No Device" góc dưới phải -> chọn máy ảo -> mở lib\main.dart -> F5.
+
+CHẠY BẰNG CHROME (nếu không có máy ảo)
+   flutter create --platforms=web --project-name phone_store_app .
+   Sửa apiHost thành 'http://localhost:5140' -> chọn Chrome -> F5.
+
+KỊCH BẢN KIỂM TRA
+  - Màn hình giới thiệu -> bấm mũi tên -> vào cửa hàng.
+  - Bấm "+" trên 1 điện thoại -> hộp thoại Xác nhận -> Đồng ý -> số trên icon giỏ hàng tăng.
+  - Chọn nhiều sản phẩm.
+  - Mở giỏ hàng bằng icon trên thanh công cụ hoặc Drawer -> Giỏ hàng.
+  - Bấm thùng rác -> hộp thoại xác nhận -> Đồng ý -> sản phẩm bị loại bỏ.
+  - Giỏ trống -> hiện "Bạn chưa bỏ sản phẩm nào vô giỏ hàng!!!".
+  - Bấm Thanh toán -> hộp thoại "Bạn đã thanh toán xong giỏ hàng" + mã hóa đơn.
+  - Kiểm tra trong SSMS: SELECT * FROM tblHoaDon; SELECT * FROM tblChiTietHoaDon;
+  - Quay lại cửa hàng -> mục "Sản phẩm được lựa chọn nhiều nhất" cập nhật.
+  - Drawer -> Thoát -> về màn hình giới thiệu.

@@ -1,0 +1,51 @@
+BÀI TẬP 03 - ỨNG DỤNG MUA BÁN ĐIỆN THOẠI (Flutter + ASP.NET Core Web API + SQL Server)
+=====================================================================================
+
+NỘI DUNG GÓI
+  PhoneStoreAPI\       Web API .NET 8 (mở bằng Visual Studio 2022)
+     Database\PhoneStoreDB.sql       Tạo database + 8 điện thoại (ảnh thật) + 2 hóa đơn mẫu
+     Database\CapNhatDienThoai.sql   Chỉ dùng nếu database đã tạo từ bản cũ: cập nhật tên/mô tả/giá
+     wwwroot\images\                 8 ảnh điện thoại dt01.png ... dt08.png
+  phone_store_app\     App Flutter (mở bằng VS Code)
+  TaiLieu\GiaiThichCode_BaiTap03.docx   Giải thích code, cây thư mục, câu hỏi vấn đáp
+
+-------------------------------------------------------------------------------------
+BƯỚC 1 - DATABASE (SSMS)
+  New Query -> mở PhoneStoreAPI\Database\PhoneStoreDB.sql -> Execute.
+  Chạy trên đúng server mà API sẽ kết nối (vd: A101PC06\CSSQL08).
+
+BƯỚC 2 - API (Visual Studio 2022)
+  1. File -> Open -> Project/Solution -> chọn PhoneStoreAPI.csproj (KHÔNG dùng Open Folder).
+  2. Sửa appsettings.json, dòng "PhoneStore" theo server của bạn, ví dụ:
+       Server=A101PC06\\CSSQL08;Database=PhoneStoreDB;User ID=sa;Password=MATKHAU;TrustServerCertificate=True;Encrypt=False
+     (dùng lại đúng chuỗi đã chạy được, chỉ đổi tên Database thành PhoneStoreDB)
+  3. Chọn profile "http" -> Run. Swagger: http://localhost:5140/swagger
+     Thử GET /api/DienThoai -> thấy 8 điện thoại là đúng.
+     Ảnh: http://localhost:5140/images/dt01.png
+
+BƯỚC 3 - APP (VS Code, terminal trong thư mục phone_store_app)
+  1. flutter create --platforms=android --project-name phone_store_app .
+     (chỉ thêm file Android còn thiếu, không ghi đè code)
+  2. flutter pub get
+  3. Sửa lib\config.dart: tenNguoiDung, emailNguoiDung = tên và email của bạn.
+  4. Bấm "No Device" -> chọn máy ảo -> mở lib\main.dart -> F5.
+     (Chạy bằng Chrome: flutter create --platforms=web --project-name phone_store_app .
+      rồi đổi apiHost trong config.dart thành http://localhost:5140)
+
+-------------------------------------------------------------------------------------
+KỊCH BẢN DEMO
+  Giới thiệu -> bấm mũi tên -> Cửa hàng
+  Bấm "+" -> Xác nhận -> Đồng ý -> số trên icon giỏ hàng tăng (chọn nhiều sản phẩm)
+  Mở giỏ hàng (icon trên thanh công cụ hoặc Drawer -> Giỏ hàng)
+  Thùng rác -> xác nhận loại bỏ; giỏ trống -> "Bạn chưa bỏ sản phẩm nào vô giỏ hàng!!!"
+  Thanh toán -> hộp thoại "Bạn đã thanh toán xong giỏ hàng" + mã hóa đơn
+  SSMS: SELECT * FROM tblHoaDon; SELECT * FROM tblChiTietHoaDon;  -> thấy hóa đơn mới
+  Quay lại cửa hàng, kéo xuống làm mới -> mục "Sản phẩm được lựa chọn nhiều nhất" cập nhật
+  Drawer -> Thoát -> về màn hình giới thiệu
+
+LỖI THƯỜNG GẶP
+  NETSDK1004 / Could not find ...exe   -> đang mở bằng Open Folder; mở lại file .csproj
+  error 26 (Locating Server/Instance)  -> sai tên server; dùng .\\CSSQL08 hoặc IP,cổng
+  Cannot open database "PhoneStoreDB"  -> chưa chạy script trên đúng server trong appsettings.json
+  App: "Không thể kết nối API"         -> API chưa chạy / sai apiHost trong config.dart
+  Ảnh không đổi                        -> dừng app rồi F5 lại (bộ nhớ đệm ảnh)
