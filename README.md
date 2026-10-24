@@ -6,7 +6,7 @@ Flutter + ASP.NET Core Web API (.NET 8) + SQL Server. Khách chọn điện tho�
 | --- | --- |
 | `PhoneStoreAPI/` | Web API .NET 8, Entity Framework Core. Script database ở `Database/PhoneStoreDB.sql` |
 | `phone_store_app/` | App Flutter: giới thiệu, cửa hàng, Drawer, giỏ hàng, thanh toán |
-| `TaiLieu/` | Tài liệu giải thích code (Word) |
+
 
 Cách chạy: xem `HUONG_DAN_CHAY.txt`.
 
